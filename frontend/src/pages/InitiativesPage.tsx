@@ -27,33 +27,8 @@ export default function InitiativesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Header Section */}
-          <div className="relative pt-20 pb-10 px-6 overflow-hidden">
-            <div className="max-w-7xl mx-auto text-center relative z-10">
-              <motion.h1 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="text-5xl md:text-7xl font-black font-poppins mb-6"
-              >
-                Our <span className="gradient-text">Initiatives</span>
-              </motion.h1>
-              <motion.p 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed"
-              >
-                Empowering innovation and entrepreneurship through hands-on experience and community.
-              </motion.p>
-            </div>
-            
-            {/* Background Accent */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-sky-500/10 rounded-full blur-[100px] pointer-events-none" />
-          </div>
-
-          {/* Initiatives Component */}
-          <Initiatives hideHeader={true} />
+          {/* Changed hideHeader to false so the component's animated header shows */}
+          <Initiatives hideHeader={false} />
 
           {/* Call to Action */}
           <div className="max-w-4xl mx-auto px-6 mt-20">

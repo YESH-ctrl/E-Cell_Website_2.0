@@ -1,7 +1,9 @@
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import EmergeRegistration from './pages/EmergeRegistration';
 import ProtectedRoute       from './components/ProtectedRoute';
 import GlobalBackground     from './components/GlobalBackground';
 import Navbar               from './components/Navbar';
@@ -12,7 +14,7 @@ import Contact              from './components/Contact';
 import Footer               from './components/Footer';
 import Login                from './pages/Login';
 import Signup               from './pages/Signup';
-import ForgotPassword from './pages/ForgotPassword';
+import ForgotPassword       from './pages/ForgotPassword';
 import StudentDashboard     from './pages/StudentDashboard';
 import EcellDashboard       from './pages/EcellDashboard';
 import Testimonials         from './components/Testimonials';
@@ -69,13 +71,10 @@ export default function App() {
         >
           <Routes>
             {/* ── Public ─────────────────────────────────────────────── */}
-            <Route path="/"         element={<HomePage />} />
-            <Route path="/login"    element={<Login />}    />
-            <Route path="/signup"   element={<Signup />}   />
-            <Route
-  path="/forgot-password"
-  element={<ForgotPassword />}
-/>
+            <Route path="/"                 element={<HomePage />} />
+            <Route path="/login"            element={<Login />}    />
+            <Route path="/signup"           element={<Signup />}   />
+            <Route path="/forgot-password"  element={<ForgotPassword />} />
             
             {/* ── New Pages ──────────────────────────────────────────── */}
             <Route
@@ -86,10 +85,20 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/about"   element={<AboutPage />}   />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/team"    element={<TeamPage />}    />
-            <Route path="/initiatives" element={<InitiativesPage />} />
+            <Route path="/about"           element={<AboutPage />}   />
+            <Route path="/gallery"         element={<GalleryPage />} />
+            <Route path="/team"            element={<TeamPage />}    />
+            <Route path="/initiatives"     element={<InitiativesPage />} />
+            
+            {/* ── Event Registration ─────────────────────────────────── */}
+            <Route 
+                path="/emerge-registration" 
+                element={
+                  <ProtectedRoute>
+                  <EmergeRegistration />
+                  </ProtectedRoute>
+              } 
+            />
             
             {/* ── BEST Ecosystem (Member Only) ─────────────────────────── */}
             <Route 
