@@ -21,7 +21,7 @@ export default function ProtectedRoute({ children, requiredRole }: Props) {
   // Not logged in
   if (!currentUser) return <Navigate to="/login" replace />;
 
-  // Still fetching role from Firestore (no cache hit yet)
+  // Still fetching the user's role from Supabase
   if (roleLoading) {
     return (
       <div className="relative min-h-screen flex items-center justify-center">

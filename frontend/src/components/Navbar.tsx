@@ -23,6 +23,7 @@ export default function Navbar() {
   const [mobileOpen,    setMobileOpen]    = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [avatarOpen,    setAvatarOpen]    = useState(false);
+  const [avatarImageFailed, setAvatarImageFailed] = useState(false);
   const avatarRef = useRef<HTMLDivElement>(null);
 
   // ── Scroll tracking ─────────────────────────────────────────────────────────
@@ -53,6 +54,11 @@ export default function Navbar() {
     document.addEventListener('mousedown', onClick);
     return () => document.removeEventListener('mousedown', onClick);
   }, []);
+
+  // Retry the image when the signed-in account or its photo changes.
+  useEffect(() => {
+    setAvatarImageFailed(false);
+  }, [currentUser?.photoURL]);
 
   // ── Nav helpers ──────────────────────────────────────────────────────────────
   const scrollToSection = (href: string) => {
@@ -173,11 +179,12 @@ export default function Navbar() {
                   onClick={() => setAvatarOpen(!avatarOpen)}
                   className="flex items-center gap-2 group"
                 >
-                  {currentUser.photoURL ? (
+                  {currentUser.photoURL && !avatarImageFailed ? (
                     <img
                       src={currentUser.photoURL}
                       alt="avatar"
                       className="w-9 h-9 rounded-full object-cover border-2 border-sky-500/40 group-hover:border-sky-400 transition-colors"
+                      onError={() => setAvatarImageFailed(true)}
                     />
                   ) : (
                     <div className="w-9 h-9 rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white text-sm font-bold border-2 border-sky-500/40 group-hover:border-sky-400 transition-colors">

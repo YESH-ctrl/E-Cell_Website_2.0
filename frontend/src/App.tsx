@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-import { AuthProvider }     from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import ProtectedRoute       from './components/ProtectedRoute';
 import GlobalBackground     from './components/GlobalBackground';
 import Navbar               from './components/Navbar';
@@ -13,6 +12,7 @@ import Contact              from './components/Contact';
 import Footer               from './components/Footer';
 import Login                from './pages/Login';
 import Signup               from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
 import StudentDashboard     from './pages/StudentDashboard';
 import EcellDashboard       from './pages/EcellDashboard';
 import Testimonials         from './components/Testimonials';
@@ -72,6 +72,10 @@ export default function App() {
             <Route path="/"         element={<HomePage />} />
             <Route path="/login"    element={<Login />}    />
             <Route path="/signup"   element={<Signup />}   />
+            <Route
+  path="/forgot-password"
+  element={<ForgotPassword />}
+/>
             
             {/* ── New Pages ──────────────────────────────────────────── */}
             <Route

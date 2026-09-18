@@ -16,7 +16,6 @@
     "@supabase/supabase-js": "^2.57.4",
     "@types/three": "^0.183.1",
     "caniuse-lite": "^1.0.30001791",
-    "firebase": "^12.12.0",
     "framer-motion": "^12.38.0",
     "gsap": "^3.14.2",
     "lucide-react": "^0.344.0",

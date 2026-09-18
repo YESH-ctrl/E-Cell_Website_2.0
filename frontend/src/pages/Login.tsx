@@ -4,10 +4,9 @@ import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import GlobalBackground from '../components/GlobalBackground';
-import { ALLOWED_ECELL_EMAILS, DEFAULT_ECELL_PASSWORD } from '../config/allowedEmails';
 
 export default function Login() {
-  const { signIn, signUp, signInWithGoogle } = useAuth();
+  const { signIn, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail]       = useState('');
@@ -19,54 +18,22 @@ export default function Login() {
 
   // ── Email / password login ────────────────────────────────────────────────
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-    const cleanEmail = email.trim().toLowerCase();
-    try {
-      await signIn(cleanEmail, password);
-      
-      // If authorized member uses default password, force change
-      const isAllowedEmail = ALLOWED_ECELL_EMAILS.includes(cleanEmail);
-      if (isAllowedEmail && password === DEFAULT_ECELL_PASSWORD) {
-        navigate('/change-password');
-      } else {
-        navigate('/');
-      }
-    } catch (err: unknown) {
-      const code = (err as { code?: string })?.code;
-      
-      // Auto-registration for authorized E-Cell members using the default password for the first time
-      const isAllowedEmail = ALLOWED_ECELL_EMAILS.includes(cleanEmail);
-      if (isAllowedEmail && password === DEFAULT_ECELL_PASSWORD) {
-        if (code === 'auth/user-not-found' || code === 'auth/invalid-credential' || code === 'auth/wrong-password') {
-          try {
-            await signUp(cleanEmail, password, 'E-Cell Member');
-            navigate('/change-password');
-            return;
-          } catch (signupErr: any) {
-            if (signupErr.code === 'auth/email-already-in-use') {
-              setError('Account exists but password is not the default. Use your personal password.');
-            } else {
-              setError(`Auto-registration failed: ${signupErr.message}`);
-            }
-            return;
-          }
-        }
-      }
+  e.preventDefault();
+  setError('');
+  setLoading(true);
 
-      if (code === 'auth/user-not-found' || code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
-        setError('Invalid email or password. Please try again.');
-      } else if (code === 'auth/too-many-requests') {
-        setError('Too many failed attempts. Please try again later.');
-      } else {
-        setError(`Sign in failed: ${code ?? 'Unknown error'}`);
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const cleanEmail = email.trim().toLowerCase();
 
+  try {
+    await signIn(cleanEmail, password);
+    navigate('/dashboard');
+  } catch (error) {
+    console.error('Sign-in error:', error);
+    setError('Invalid email or password. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
   // ── Google login ─────────────────────────────────────────────────────────
   const handleGoogle = async () => {
     setError('');

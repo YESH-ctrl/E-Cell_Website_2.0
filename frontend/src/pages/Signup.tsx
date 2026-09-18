@@ -49,20 +49,18 @@ export default function Signup() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
+    if (!displayName.trim()) return setError('Please enter your full name.');
+    if (password.length < 8) return setError('Password must be at least 8 characters long.');
     if (password !== confirmPassword) return setError('Passwords do not match.');
     if (strength.score < 2) return setError('Please choose a stronger password.');
 
     setLoading(true);
     try {
-      await signUp(email, password, displayName);
+      await signUp(email.trim().toLowerCase(), password, displayName.trim());
       navigate('/');
     } catch (err: unknown) {
-      const code = (err as { code?: string })?.code;
-      if (code === 'auth/email-already-in-use') {
-        setError('This email is already registered. Try signing in instead.');
-      } else {
-        setError('Sign up failed. Please try again.');
-      }
+      console.error('Sign-up error:', err);
+      setError('Unable to create account. Please verify your details or try signing in.');
     } finally {
       setLoading(false);
     }

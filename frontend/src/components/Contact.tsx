@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Twitter, Linkedin, Instagram, Github, MessageSquare } from 'lucide-react';
-import { staggerContainer, fadeInUp, fadeInLeft, fadeInRight } from '../animations/variants';
+import { Mail, Phone, MapPin, Send, Linkedin, Instagram, MessageSquare } from 'lucide-react';
+import { staggerContainer, fadeInUp } from '../animations/variants';
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL?.replace(/\/$/, '');
 
 const socials = [
   { icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/e-cell-bvrit-691906202/', color: '#0A66C2' },
@@ -26,8 +28,12 @@ export default function Contact() {
     setError('');
 
     try {
+      if (!backendUrl) {
+        throw new Error('VITE_BACKEND_URL is not configured.');
+      }
+
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL ?? 'https://e-cell-website-navy.vercel.app'}/api/inquiries`,
+        `${backendUrl}/api/inquiries`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -132,9 +138,17 @@ export default function Contact() {
                 <h3 className="text-2xl font-bold text-white font-poppins mb-3">Message Sent!</h3>
                 <p className="text-white/50">Thanks for reaching out. We'll get back to you within 24 hours.</p>
                 <button
-                  onClick={() => { setSubmitted(false); setForm({ name: '', email: '', message: '' }); }}
-                  className="btn-secondary mt-6 text-sm px-6 py-2.5"
-                >
+  onClick={() => {
+    setSubmitted(false);
+    setForm({
+      name: '',
+      email: '',
+      subject: 'Inquiry from Website',
+      message: '',
+    });
+  }}
+  className="btn-secondary mt-6 text-sm px-6 py-2.5"
+>
                   Send Another
                 </button>
               </motion.div>

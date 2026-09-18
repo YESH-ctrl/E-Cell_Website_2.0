@@ -35,7 +35,7 @@ export default function ChangePassword() {
       if (updateUserPassword) {
         await updateUserPassword(newPassword);
         setSuccess(true);
-        setTimeout(() => navigate('/ecell-dashboard'), 2000);
+        setTimeout(() => navigate('/dashboard'), 2000);
       } else {
         throw new Error('Update password function not found');
       }
@@ -59,7 +59,7 @@ export default function ChangePassword() {
         <div className="backdrop-blur-2xl bg-white/[0.04] border border-white/[0.08] rounded-3xl p-8 sm:p-10">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-black text-white mb-2">Secure Your Account</h1>
-            <p className="text-white/40 text-sm">You are using a common password. Please set a unique one to continue.</p>
+            <p className="text-white/40 text-sm">Choose a strong new password for your E-Cell account.</p>
           </div>
 
           {error && (
